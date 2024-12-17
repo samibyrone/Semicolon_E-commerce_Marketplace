@@ -1,12 +1,12 @@
 package com.semicolon.africa.Semicolon_Ecommerce_marketplace.utils;
 
+import com.semicolon.africa.Semicolon_Ecommerce_marketplace.data.model.CartItem;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.data.model.Product;
+import com.semicolon.africa.Semicolon_Ecommerce_marketplace.data.model.ShoppingCart;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.data.model.User;
-import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.requests.ProductRegisterRequest;
-import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.requests.UserRegisterRequest;
-import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.ProductRegisterResponse;
-import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.UserLoginResponse;
-import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.UserRegisterResponse;
+import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.requests.*;
+import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.*;
+import com.semicolon.africa.Semicolon_Ecommerce_marketplace.exception.ProductNotFoundException;
 
 public class Mapper {
 
@@ -56,8 +56,46 @@ public class Mapper {
 
     public static ProductRegisterResponse mapProduct(Product product) {
         ProductRegisterResponse productRegisterResponse = new ProductRegisterResponse();
-        productRegisterResponse.setMessage("Product Successfully Created");
-        productRegisterResponse.setProduct_id(product.getId());
+        productRegisterResponse.setMessage("Product Was Successfully Created");
+        productRegisterResponse.setProduct_id(product.getProduct_id());
         return productRegisterResponse;
+    }
+
+    public static void mapProductUpdate(ProductUpdatesRequest productUpdatesRequest, Product product) {
+        product.setProductName(productUpdatesRequest.getProductName());
+        product.setProductDescription(productUpdatesRequest.getProductDescription());
+        product.setProductPrice(productUpdatesRequest.getProductPrice());
+        product.setProductStock(productUpdatesRequest.getProductStock());
+        product.setProductCategory(productUpdatesRequest.getProductCategory());
+    }
+
+    public static ProductUpdateResponse mapProductUpdate( Product product) {
+        ProductUpdateResponse productUpdateResponse = new ProductUpdateResponse();
+        productUpdateResponse.setMessage("Product Was Successfully Updated");
+        productUpdateResponse.setProduct_id(product.getProduct_id());
+        return productUpdateResponse;
+    }
+
+    public static void mapShoppingCart(ShoppingCartRegisterRequest shoppingCartRegisterRequest, ShoppingCart shoppingCart) {
+        shoppingCart.setItems(shoppingCartRegisterRequest.getItems());
+        shoppingCart.setTotalPrice(shoppingCartRegisterRequest.getTotalPrice());
+    }
+
+    public static ShoppingCartRegisterResponse mapShoppingCart(ShoppingCart shoppingCart) {
+        ShoppingCartRegisterResponse shoppingCartRegisterResponse = new ShoppingCartRegisterResponse();
+        shoppingCartRegisterResponse.setMessage("ShoppingCart Was Successfully Created");
+        shoppingCartRegisterResponse.setShoppingCart_id(shoppingCart.getShoppingCart_id());
+        return shoppingCartRegisterResponse;
+    }
+
+    public static void mapCartItem(CartItemRegisterRequest cartItemRegisterRequest, CartItem cartItem) {
+        cartItem.setProducts(cartItemRegisterRequest.getProducts());
+        cartItem.setPrice(cartItemRegisterRequest.getPrice());
+        cartItem.setQuantityOfProducts(cartItemRegisterRequest.getQuantityOfProducts());
+        cartItem.setProductcategory(cartItemRegisterRequest.getProductcategory());
+    }
+
+    public static CartItemRegisterResponse mapCartItem(CartItem cartItem) {
+
     }
 }

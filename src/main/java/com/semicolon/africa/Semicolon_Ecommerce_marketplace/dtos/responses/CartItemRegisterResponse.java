@@ -6,9 +6,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
 @Document
-public class ShoppingCartRemoveResponse {
+public class CartItemRegisterResponse {
 
     @Id
-    private String shoppingCart_id;
+    private String cartItem_id;
     private String message;
 }

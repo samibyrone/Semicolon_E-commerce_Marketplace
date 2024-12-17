@@ -8,6 +8,7 @@ import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.Produ
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.data.repositories.ProductRepository;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.requests.ProductRegisterRequest;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.ProductRegisterResponse;
+import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.ProductUpdateResponse;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.exception.ProductNotFoundException;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.exception.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-import static com.semicolon.africa.Semicolon_Ecommerce_marketplace.utils.Mapper.map;
-import static com.semicolon.africa.Semicolon_Ecommerce_marketplace.utils.Mapper.mapProduct;
+import static com.semicolon.africa.Semicolon_Ecommerce_marketplace.utils.Mapper.*;
 
 
 @Service
@@ -56,17 +56,15 @@ public class ProductServiceImplementation implements ProductService{
         }else { throw new UserNotFoundException("User does not exist"); }
     }
 
-    public ProductRegisterResponse updateProduct(String product_id, ProductUpdatesRequest productUpdatesRequest) {
+    @Override
+    public ProductUpdateResponse updateProduct(String product_id, ProductUpdatesRequest productUpdatesRequest) {
+        User user = new User();
+        validateUser(user.getId());
         Product product = productRepository.findById(product_id)
-                .orElseThrow( () -> new ProductNotFoundException("Product does not exist"));
-        product.setProductName(productUpdatesRequest.getProductName());
-        product.setProductDescription(productUpdatesRequest.getProductDescription());
-        product.setProductPrice(productUpdatesRequest.getProductPrice());
-        product.setProductStock(productUpdatesRequest.getProductStock());
-        productRepository.save(product);
-        ProductRegisterResponse response = new ProductRegisterResponse();
-        response.setMessage("Product successfully updated");
-        return response;
+           .orElseThrow( () -> new ProductNotFoundException("Product does not exist"));
+        mapProductUpdate(productUpdatesRequest, product);
+        Product productUpdated = productRepository.save(product);
+        return mapProductUpdate(productUpdated);
     }
 
     public ProductRemoveResponse deleteProduct(String product_id) {
