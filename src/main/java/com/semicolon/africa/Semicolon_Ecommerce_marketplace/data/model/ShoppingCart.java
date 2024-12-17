@@ -4,12 +4,14 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Data
 @Document
 public class ShoppingCart {
 
     @Id
-    private int cart_id;
-    private int user_id;
+    private String user_id;
+    private List<CartItem> CartItems;
     private double totalPrice;
 }

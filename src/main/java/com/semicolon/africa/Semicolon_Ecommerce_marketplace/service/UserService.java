@@ -7,6 +7,7 @@ import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.UserL
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.UserRegisterResponse;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
@@ -14,5 +15,9 @@ public interface UserService {
 
     List<User> getAllUsers();
 
+    Optional<User> findUserById(String userId);
+
     UserLoginResponse loginUser(UserLoginRequest userLogin);
+
+    UserLoginResponse loggedOut(UserLoginRequest userLoggedOut);
 }

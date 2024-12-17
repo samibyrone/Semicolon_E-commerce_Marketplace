@@ -11,13 +11,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-//@ActiveProfiles("test")
 public class UserServiceImplementationTest {
 
     @Autowired
@@ -101,7 +99,7 @@ public class UserServiceImplementationTest {
     }
 
     @Test
-    public void testThatUserCanLoginWithWrongPassword() {
+    public void testThatUserCanNotLoginWithWrongPassword() {
         userRegistration();
         UserLoginRequest userLogin = new UserLoginRequest();
         userLogin.setEmail("ibironke@gmail.com");
@@ -110,7 +108,19 @@ public class UserServiceImplementationTest {
         assertThrows(EmailOrPasswordDoesNotExist.class, () -> userServiceImplementation.loginUser(userLogin));
         assertThat(loginResponse).isNotNull();
         assertThat(loginResponse.getMessage()).contains("Email and Password is Wrong or Does not Exist ");
+        assertThat(loginResponse.isLoginSuccessful()).isFalse();
+    }
 
+    @Test
+    public void testThatUserCanBeLoggedOut() {
+        userRegistration();
+        UserLoginRequest userLoggedOut = new UserLoginRequest();
+        userLoggedOut.setEmail("ibironke@gmail.com");
+        userLoggedOut.setPassword("12345");
+        UserLoginResponse loginResponse = userServiceImplementation.loggedOut(userLoggedOut);
+        assertThat(loginResponse).isNotNull();
+        assertThat(loginResponse.getMessage()).contains("You have been Logged Out Successfully");
+        assertThat(loginResponse.isLoginSuccessful()).isFalse();
     }
 
 }

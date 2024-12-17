@@ -2,6 +2,7 @@ package com.semicolon.africa.Semicolon_Ecommerce_marketplace.controller;
 
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.data.model.Product;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.requests.ProductRegisterRequest;
+import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.requests.ProductUpdatesRequest;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.ProductRegisterResponse;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.service.ProductService;
 import static com.semicolon.africa.Semicolon_Ecommerce_marketplace.utils.Mapper.mapProduct;
@@ -39,14 +40,13 @@ public class ProductController {
     }
 
     @PutMapping("/{product_id}")
-    public ResponseEntity<ProductRegisterResponse> updateProduct(@PathVariable String product_id, @RequestBody ProductRegisterResponse productDetails) {
-        var product = productService.getProductById(productDetails.getProduct_id());
-        ProductRegisterResponse updateProduct = productService.updateProduct("1", product);
-        return ResponseEntity.status(OK).body(updateProduct);
+    public ResponseEntity<ProductRegisterResponse> updateProduct(@PathVariable String product_id, @RequestBody ProductUpdatesRequest productUpdates) {
+        ProductRegisterResponse productResponse = productService.updateProduct(product_id, productUpdates);
+        return ResponseEntity.status(OK).body(productResponse);
     }
 
     @DeleteMapping("/{product_id}")
-    public ResponseEntity<Void> deleteProductById(@PathVariable String product_id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable String product_id) {
         productService.deleteProduct(product_id);
         return ResponseEntity.noContent().build();
     }

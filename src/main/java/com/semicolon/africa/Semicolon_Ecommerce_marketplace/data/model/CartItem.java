@@ -9,8 +9,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CartItem {
 
     @Id
-    private int cartItem_id;
-    private int product_id;
+    private String user_id;
+    private String product_id;
     private int quantity;
     private double price;
 }

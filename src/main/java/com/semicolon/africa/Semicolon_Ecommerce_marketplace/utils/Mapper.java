@@ -37,11 +37,21 @@ public class Mapper {
         return userLoginResponse;
     }
 
+    public static UserLoginResponse mapLogout(User user) {
+        UserLoginResponse userLoginResponse = new UserLoginResponse();
+        user.setEmail(user.getEmail());
+        user.setPassword(user.getPassword());
+        userLoginResponse.setMessage("Logged out Successfully");
+        userLoginResponse.setLoginSuccessful(false);
+        return userLoginResponse;
+    }
+
     public static void mapProduct(ProductRegisterRequest productRegisterRequest, Product product) {
-        product.setProductName(product.getProductName());
-        product.setProductDescription(product.getProductDescription());
-        product.setProductPrice(product.getProductPrice());
-        product.setProductStock(product.getProductStock());
+        product.setProductName(productRegisterRequest.getProductName());
+        product.setProductDescription(productRegisterRequest.getProductDescription());
+        product.setProductPrice(productRegisterRequest.getProductPrice());
+        product.setProductStock(productRegisterRequest.getProductStock());
+        product.setProductCategory(productRegisterRequest.getProductCategory());
         }
 
     public static ProductRegisterResponse mapProduct(Product product) {

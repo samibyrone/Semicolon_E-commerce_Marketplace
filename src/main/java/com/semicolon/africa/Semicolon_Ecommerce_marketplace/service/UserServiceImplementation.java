@@ -17,9 +17,9 @@ import javax.xml.datatype.DatatypeConstants;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 
-import static com.semicolon.africa.Semicolon_Ecommerce_marketplace.utils.Mapper.map;
-import static com.semicolon.africa.Semicolon_Ecommerce_marketplace.utils.Mapper.mapLogin;
+import static com.semicolon.africa.Semicolon_Ecommerce_marketplace.utils.Mapper.*;
 
 @Service
 public class UserServiceImplementation implements UserService {
@@ -46,6 +46,11 @@ public class UserServiceImplementation implements UserService {
         return userRepository.findAll();
     }
 
+    @Override
+    public Optional<User> findUserById(String userId) {
+        return Optional.empty();
+    }
+
     public UserLoginResponse loginUser(UserLoginRequest userLogin) {
         User user = findByEmail(userLogin.getEmail());
         validatingPassword(userLogin.getPassword());
@@ -55,18 +60,22 @@ public class UserServiceImplementation implements UserService {
         return mapLogin(user);
     }
 
+    public UserLoginResponse loggedOut(UserLoginRequest userLogin) {
+        User user = findByEmail(userLogin.getEmail());
+        validatingPassword(userLogin.getPassword());
+        mapLogout(user);
+        user.setLoggedIn(false);
+        userRepository.save(user);
+        return mapLogout(user);
+    }
+
     private User findByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow( () -> new UserNotFoundException("User does not exist"));
     }
 
-    private void validatingPassword(String password) throws NoSuchAlgorithmException {
-//        MessageDigest pass = MessageDigest.getInstance("MD5");
-//        pass.update(password.getBytes());
-//        byte[] digest = pass.digest();
-//        String hash = DatatypeConverter.printHaxBinary(digest).toUpperCase();
-//        return hash;
+    private void validatingPassword(String password) throws EmailOrPasswordDoesNotExist{
         boolean validatePassword = userRepository.validatePassword(password);
-        if (!validatePassword) throw new EmailOrPasswordDoesNotExist("Email and Password is Wrong or Does not Exist");
-        return ;
+        if (!validatePassword)throw new EmailOrPasswordDoesNotExist("Email and Password is Wrong or Does not Exist");
+    }
 }
