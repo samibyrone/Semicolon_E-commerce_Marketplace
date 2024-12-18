@@ -13,7 +13,8 @@ public class CartItem {
 
     @Id
     private String cartItem_id;
-    private List<Product> products = new ArrayList<>();
+    private String product_id;
+    private String productName;
     private int quantityOfProducts;
     private double price;
     private ProductCategory productcategory;

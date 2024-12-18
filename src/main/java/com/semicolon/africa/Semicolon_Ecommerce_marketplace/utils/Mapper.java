@@ -6,7 +6,6 @@ import com.semicolon.africa.Semicolon_Ecommerce_marketplace.data.model.ShoppingC
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.data.model.User;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.requests.*;
 import com.semicolon.africa.Semicolon_Ecommerce_marketplace.dtos.responses.*;
-import com.semicolon.africa.Semicolon_Ecommerce_marketplace.exception.ProductNotFoundException;
 
 public class Mapper {
 
@@ -89,13 +88,18 @@ public class Mapper {
     }
 
     public static void mapCartItem(CartItemRegisterRequest cartItemRegisterRequest, CartItem cartItem) {
-        cartItem.setProducts(cartItemRegisterRequest.getProducts());
+        cartItem.setProductName(cartItem.getProductName());
         cartItem.setPrice(cartItemRegisterRequest.getPrice());
         cartItem.setQuantityOfProducts(cartItemRegisterRequest.getQuantityOfProducts());
         cartItem.setProductcategory(cartItemRegisterRequest.getProductcategory());
     }
 
     public static CartItemRegisterResponse mapCartItem(CartItem cartItem) {
-
+        CartItemRegisterResponse cartItemRResponse = new CartItemRegisterResponse();
+        cartItemRResponse.setMessage("CartItem Was Successfully Created");
+        cartItemRResponse.setCartItem_id(cartItem.getCartItem_id());
+        return cartItemRResponse;
     }
+
+
 }
